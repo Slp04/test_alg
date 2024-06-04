@@ -5,9 +5,10 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QVBoxLayout>
-#include <QSplitter>
-#include <QTextStream>
+//#include <QSplitter>
 #include <QFileDialog>
+#include <QRegularExpression>
+#include <chrono>
 
 #include "startwidget.h"
 
@@ -21,11 +22,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     fileSystemModel = new QFileSystemModel(this);
     fileSystemModel->setRootPath(QDir::currentPath());
+    fileSystemModel->setFilter(QDir::Files | QDir::NoDotAndDotDot);
     fileSystemModel->setNameFilters(QStringList() << "*.cpp" << "*.h" << "*.txt");
     fileSystemModel->setNameFilterDisables(false);
 
     imageSystemModel = new QFileSystemModel(this);
     imageSystemModel->setRootPath(QDir::currentPath());
+    imageSystemModel->setFilter( QDir::Files | QDir::NoDotAndDotDot);
     imageSystemModel->setNameFilters(QStringList() << "*.png" << "*.jpg" << "*.jpeg");
     imageSystemModel->setNameFilterDisables(false);
 
@@ -108,7 +111,6 @@ void MainWindow::on_image_list_panel_doubleClicked(const QModelIndex &index)
         if (file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
             QTextStream in(&file);
-            //QString content = in.readAll();
             hexData = QByteArray::fromHex((in.readAll()).toUtf8());
 
             hexEditor = new HexEditor(this);
@@ -232,12 +234,10 @@ void MainWindow::handleCmakeFinished(int exitCode, QProcess::ExitStatus exitStat
 {
     if(exitStatus == QProcess::CrashExit)
     {
-        //QMessageBox::critical(this, "", "");
         return;
     }
     if(exitCode != 0)
     {
-        //QMessageBox::critical(this, "", "");
         return;
     }
 
@@ -245,7 +245,6 @@ void MainWindow::handleCmakeFinished(int exitCode, QProcess::ExitStatus exitStat
     makeProcess->start("make");
     if(!makeProcess->waitForStarted())
     {
-        //QMessageBox::critical(this, "", "");
         return;
     }
 }
@@ -253,14 +252,56 @@ void MainWindow::handleMakeFinished(int exitCode, QProcess::ExitStatus exitStatu
 {
     if(exitStatus == QProcess::CrashExit)
     {
-        //QMessageBox::critical(this, "", "");
         return;
     }
     if(exitCode != 0)
     {
-        //QMessageBox::critical(this, "", "");
         return;
     }
 
-    //QMessageBox::information(this, "", "");
+    getProjectName();
+    if(nameProject.isEmpty())
+    {
+        ui->textEdit_console->insertPlainText("Ошибка сборки проекта: не удалось найти имя проекта в CMakeLists.txt");
+        return;
+    }
+
+    auto start = std::chrono::high_resolution_clock::now();
+    runCode();
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> time = finish - start;
+    ui->textEdit_result->clear();
+    ui->textEdit_result->insertPlainText("Название программы: " + nameProject + '\n');
+    ui->textEdit_result->insertPlainText("Время работы программы: " + QString::number(time.count()) + "сек." + '\n');
+}
+
+void MainWindow::getProjectName()
+{
+    QFile file(pathProject + "CMakeLists.txt");
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return;
+    }
+
+    QTextStream in(&file);
+    QRegularExpression re("^\\s*project\\s*\\(\\s*([^\\s\\)]+)");
+
+    while(!in.atEnd())
+    {
+        QString line = in.readLine();
+        QRegularExpressionMatch match = re.match(line);
+        if(match.hasMatch())
+        {
+            nameProject = match.captured(1);
+            break;
+        }
+    }
+    file.close();
+}
+
+void MainWindow::runCode()
+{
+    QProcess startProg;
+    startProg.start("./" + nameProject);
+    startProg.waitForFinished();
 }

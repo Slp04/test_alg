@@ -60,9 +60,14 @@ private:
 
     QString pathProject;
     QString nameProject;
+
     //QSplitter *splitter;
 
     //void save_splitter_size();
     //void load_splitter_size();
+
+    void getProjectName();
+    void runCode();
+
 };
 #endif // MAINWINDOW_H
