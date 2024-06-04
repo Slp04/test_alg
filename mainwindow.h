@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QFileSystemModel>
 #include <QListView>
+#include <QProcess>
 
 //#include <QSettings>
 //#include <QSplitter>
@@ -37,6 +38,14 @@ private slots:
 
     void on_action_start_prog_triggered();
 
+    void readCmakeOutput();
+    void readCmakeError();
+    void readMakeOutput();
+    void readMakeError();
+    void handleCmakeFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void handleMakeFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
+
 private:
     Ui::MainWindow *ui;
 
@@ -45,6 +54,9 @@ private:
 
     HexEditor *hexEditor;
     QByteArray hexData;
+
+    QProcess *cmakeProcess;
+    QProcess *makeProcess;
 
     QString pathProject;
     QString nameProject;

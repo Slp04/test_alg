@@ -8,13 +8,14 @@
 #include <QSplitter>
 #include <QTextStream>
 #include <QFileDialog>
-#include <QProcess>
 
 #include "startwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , cmakeProcess(new QProcess(this))
+    , makeProcess(new QProcess(this))
 {
     ui->setupUi(this);
 
@@ -41,7 +42,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->action_save_file, SIGNAL(triggered()), this, SLOT(save_file()));
     connect(ui->action_open_image, SIGNAL(triggered()), this, SLOT(open_image()));
 
-    connect(ui->action_start_prog, SIGNAL(triggered()), this, SLOT(start_prog()));
+    connect(cmakeProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readCmakeOutput()));
+    connect(cmakeProcess, SIGNAL(readyReadStandardError()), this, SLOT(readCmakeError()));
+    connect(cmakeProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &MainWindow::handleCmakeFinished);
+    connect(makeProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readMakeOutput()));
+    connect(makeProcess, SIGNAL(readyReadStandardError()), this, SLOT(readMakeError()));
+    connect(makeProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &MainWindow::handleMakeFinished);
+
 
     ui->file_list_panel->setFixedWidth(200);
     ui->image_list_panel->setFixedWidth(200);
@@ -69,7 +76,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
 
 void MainWindow::on_file_list_panel_doubleClicked(const QModelIndex &index)
 {
@@ -178,7 +184,6 @@ void MainWindow::save_file()
     QFile file(pathProject + ui->file_list_panel->currentIndex().data(Qt::DisplayRole).toString());
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-
         QTextStream out(&file);
         out << ui->text_editor->toPlainText();
         QMessageBox::information(this, tr("Сохранение файла"), tr("Файл успешно сохранён."));
@@ -192,24 +197,70 @@ void MainWindow::save_file()
 
 void MainWindow::on_action_start_prog_triggered()
 {
-    QProcess cmakeProcess;
-    cmakeProcess.setWorkingDirectory(pathProject);
-    cmakeProcess.start("cmake", QStringList() << ".");
-    if(!cmakeProcess.waitForFinished())
+    ui->textEdit_console->clear();
+
+    cmakeProcess->setWorkingDirectory(pathProject);
+    cmakeProcess->start("cmake", QStringList() << ".");
+    if(!cmakeProcess->waitForStarted())
     {
         QMessageBox::critical(this, "Ошибка", "Не удалось выполнить настройку CMake");
         return;
     }
+}
 
-    QProcess makeProcess;
-    makeProcess.setWorkingDirectory(pathProject);
-    makeProcess.start("make");
-    if(!makeProcess.waitForFinished())
+void MainWindow::readCmakeOutput()
+{
+    ui->textEdit_console->append(cmakeProcess->readAllStandardOutput());
+}
+
+void MainWindow::readCmakeError()
+{
+    ui->textEdit_console->append(cmakeProcess->readAllStandardError());
+}
+
+void MainWindow::readMakeOutput()
+{
+    ui->textEdit_console->append(makeProcess->readAllStandardOutput());
+}
+
+void MainWindow::readMakeError()
+{
+    ui->textEdit_console->append(makeProcess->readAllStandardOutput());
+}
+
+void MainWindow::handleCmakeFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    if(exitStatus == QProcess::CrashExit)
     {
-        QMessageBox::critical(this, "Ошибка", "Не удалось собрать проект");
+        //QMessageBox::critical(this, "", "");
+        return;
+    }
+    if(exitCode != 0)
+    {
+        //QMessageBox::critical(this, "", "");
         return;
     }
 
-    QMessageBox::information(this, "Успешно", "Сборка успешно завершена!");
+    makeProcess->setWorkingDirectory(pathProject);
+    makeProcess->start("make");
+    if(!makeProcess->waitForStarted())
+    {
+        //QMessageBox::critical(this, "", "");
+        return;
+    }
 }
+void MainWindow::handleMakeFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    if(exitStatus == QProcess::CrashExit)
+    {
+        //QMessageBox::critical(this, "", "");
+        return;
+    }
+    if(exitCode != 0)
+    {
+        //QMessageBox::critical(this, "", "");
+        return;
+    }
 
+    //QMessageBox::information(this, "", "");
+}
