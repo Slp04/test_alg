@@ -5,7 +5,6 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QVBoxLayout>
-//#include <QSplitter>
 #include <QFileDialog>
 #include <QRegularExpression>
 #include <chrono>
@@ -43,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->action_new_file, SIGNAL(triggered()), this, SLOT(create_new_file()));
     connect(ui->action_save_file, SIGNAL(triggered()), this, SLOT(save_file()));
-    connect(ui->action_open_image, SIGNAL(triggered()), this, SLOT(open_image()));
 
     connect(cmakeProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readCmakeOutput()));
     connect(cmakeProcess, SIGNAL(readyReadStandardError()), this, SLOT(readCmakeError()));
@@ -270,9 +268,9 @@ void MainWindow::handleMakeFinished(int exitCode, QProcess::ExitStatus exitStatu
     runCode();
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> time = finish - start;
-    ui->textEdit_result->clear();
-    ui->textEdit_result->insertPlainText("Название программы: " + nameProject + '\n');
-    ui->textEdit_result->insertPlainText("Время работы программы: " + QString::number(time.count()) + "сек." + '\n');
+    //ui->textEdit_result->clear();
+    //ui->textEdit_result->insertPlainText("Название программы: " + nameProject + '\n');
+    //ui->textEdit_result->insertPlainText("Время работы программы: " + QString::number(time.count()) + "сек." + '\n');
 }
 
 void MainWindow::getProjectName()

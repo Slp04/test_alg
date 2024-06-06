@@ -3,7 +3,6 @@
 HexEditor::HexEditor(QWidget *parent)
 {
     setReadOnly(true);
-    //setCursorWidth(0);
 }
 
 void HexEditor::set_data(const QByteArray &data, const int size)

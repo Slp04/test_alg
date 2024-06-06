@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>816</width>
-    <height>493</height>
+    <width>985</width>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QSplitter" name="splitter_2">
       <property name="orientation">
@@ -81,85 +81,72 @@
       <widget class="QWidget" name="verticalLayoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="1" column="2">
-           <widget class="QLabel" name="label_x">
-            <property name="text">
-             <string>X</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_brightness">
-            <property name="text">
-             <string>Яркость: </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_size">
-            <property name="text">
-             <string>Размер: </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_contrast">
-            <property name="text">
-             <string>Контраст: </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit"/>
-          </item>
-          <item row="4" column="1" colspan="3">
-           <widget class="QSlider" name="horizontalSlider_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_saturation">
-            <property name="text">
-             <string>Насыщенность: </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1" colspan="3">
-           <widget class="QSlider" name="horizontalSlider_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QLineEdit" name="lineEdit_2"/>
-          </item>
-          <item row="2" column="1" colspan="3">
-           <widget class="QSlider" name="horizontalSlider">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="4">
-           <widget class="QTextEdit" name="textEdit_result"/>
-          </item>
-         </layout>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>Настройка параметров</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Название файла</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineEdit"/>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox">
+             <property name="text">
+              <string>Время работы</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="checkBox_2">
+             <property name="text">
+              <string>PSNR</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QCheckBox" name="checkBox_5">
+             <property name="text">
+              <string>Compress ratio</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="checkBox_3">
+             <property name="text">
+              <string>SSIM</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QCheckBox" name="checkBox_6">
+             <property name="text">
+              <string>Bitrate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="checkBox_4">
+             <property name="text">
+              <string>MSE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QCheckBox" name="checkBox_7">
+             <property name="text">
+              <string>Вывод изображений</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
         <item>
          <widget class="QTextEdit" name="textEdit_console"/>
@@ -175,7 +162,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>816</width>
+     <width>985</width>
      <height>22</height>
     </rect>
    </property>
@@ -185,19 +172,24 @@
     </property>
     <addaction name="action_new_file"/>
     <addaction name="action_save_file"/>
-    <addaction name="action_open_image"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
      <string>Сборка</string>
     </property>
     <addaction name="action_start_prog"/>
-    <addaction name="action_create_image"/>
+    <addaction name="separator"/>
+    <addaction name="action_2"/>
+    <addaction name="actionPSNR"/>
+    <addaction name="actionSSIM"/>
+    <addaction name="actionMSE"/>
+    <addaction name="actionCompress_ratio"/>
+    <addaction name="actionBitrate"/>
+    <addaction name="action_3"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="action_start_prog">
    <property name="text">
     <string>Запустить</string>
@@ -213,6 +205,9 @@
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="action_save_file">
    <property name="text">
@@ -222,20 +217,60 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="action_open_image">
+  <action name="action_2">
    <property name="text">
-    <string>Открыть изображение</string>
+    <string>Время работы</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string>Ctrl+1</string>
    </property>
   </action>
-  <action name="action_create_image">
+  <action name="actionPSNR">
    <property name="text">
-    <string>Создать изображение</string>
+    <string>PSNR</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+I</string>
+    <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionSSIM">
+   <property name="text">
+    <string>SSIM</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
+   </property>
+  </action>
+  <action name="actionMSE">
+   <property name="text">
+    <string>MSE</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
+  </action>
+  <action name="actionCompress_ratio">
+   <property name="text">
+    <string>Compress ratio</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+5</string>
+   </property>
+  </action>
+  <action name="actionBitrate">
+   <property name="text">
+    <string>Bitrate</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+6</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Вывод изображений</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+7</string>
    </property>
   </action>
  </widget>
