@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include <QRegularExpression>
 #include <chrono>
+#include <QGraphicsPixmapItem>
 
 #include "startwidget.h"
 
@@ -199,6 +200,55 @@ void MainWindow::on_action_start_prog_triggered()
 {
     ui->textEdit_console->clear();
 
+    origImageName = ui->lineEdit_orig_name->text();
+    if(origImageName.isEmpty())
+    {
+        QMessageBox::critical(this, "Ошибка", "Не указано название исходного изображения");
+        return;
+    }
+
+    comprImageName = ui->lineEdit_compr_name->text();
+    if(comprImageName.isEmpty())
+    {
+        QMessageBox::critical(this, "Ошибка", "Не указано название сжатого изображения");
+        return;
+    }
+
+    if(ui->checkBox_data->isChecked())
+    {
+        m_width = ui->lineEdit_width->text().toInt();
+        m_height = ui->lineEdit_height->text().toInt();
+
+        if(!m_width or !m_height)
+        {
+            QMessageBox::critical(this, "Ошибка", "Не указаны размеры ихображения!");
+            return;
+        }
+
+
+        ui->comboBox_format->currentText().toInt();
+        if(ui->comboBox_format->currentText().toLatin1().data() == "RGB")
+        {
+            m_format = QImage::Format_RGB888;
+        }
+
+        QString tmp = pathProject+origImageName;
+        origImage = loadRawImage(&tmp);
+        if(origImage.isNull())
+        {
+            QMessageBox::critical(this, "Ошибка", "Не удалось загрузить сырые данные!");
+            return;
+        }
+
+        QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap::fromImage(origImage));
+        QGraphicsScene *scene = new QGraphicsScene;
+        scene->addItem(item);
+        ui->graphicsView->setScene(scene);
+        ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+        ui->graphicsView->setRenderHint(QPainter::SmoothPixmapTransform);
+
+    }
+
     cmakeProcess->setWorkingDirectory(pathProject);
     cmakeProcess->start("cmake", QStringList() << ".");
     if(!cmakeProcess->waitForStarted())
@@ -302,4 +352,36 @@ void MainWindow::runCode()
     QProcess startProg;
     startProg.start("./" + nameProject);
     startProg.waitForFinished();
+}
+
+void MainWindow::on_checkBox_data_stateChanged(int check)
+{
+    if(check)
+    {
+        ui->lineEdit_width->setEnabled(true);
+        ui->lineEdit_height->setEnabled(true);
+        ui->comboBox_format->setEnabled(true);
+    }
+    else
+    {
+        ui->lineEdit_width->setEnabled(false);
+        ui->lineEdit_height->setEnabled(false);
+        ui->comboBox_format->setEnabled(false);
+    }
+}
+
+QImage MainWindow::loadRawImage(QString *filePath)
+{
+    QFile file(*filePath);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::critical(this, "Ошибка", "Ошибка открытия файла для чтения");
+        return QImage();
+    }
+
+    QByteArray ba = file.readAll();
+    file.close();
+
+    QImage image(reinterpret_cast<const uchar*>(ba.data()), m_width, m_height, m_format);
+    return image;
 }

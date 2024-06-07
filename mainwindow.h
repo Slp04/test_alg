@@ -7,6 +7,7 @@
 #include <QFileSystemModel>
 #include <QListView>
 #include <QProcess>
+#include <QImage>
 
 //#include <QSettings>
 //#include <QSplitter>
@@ -46,6 +47,11 @@ private slots:
     void handleMakeFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 
+    void on_checkBox_data_stateChanged(int check);
+
+    //void loadImage(const QString &filePath, );
+    QImage loadRawImage(QString *filePath);
+
 private:
     Ui::MainWindow *ui;
 
@@ -60,6 +66,16 @@ private:
 
     QString pathProject;
     QString nameProject;
+
+    QString origImageName;
+    QString comprImageName;
+
+    QImage origImage;
+    QImage comprImage;
+
+    int m_width;
+    int m_height;
+    QImage::Format m_format;
 
     //QSplitter *splitter;
 
