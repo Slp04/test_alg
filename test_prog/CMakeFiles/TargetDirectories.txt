@@ -1,0 +1,3 @@
+/home/aboba/test_prog/CMakeFiles/test.dir
+/home/aboba/test_prog/CMakeFiles/edit_cache.dir
+/home/aboba/test_prog/CMakeFiles/rebuild_cache.dir

@@ -198,7 +198,7 @@ void MainWindow::save_file()
 
 void MainWindow::on_action_start_prog_triggered()
 {
-    ui->textEdit_console->clear();
+    //ui->textEdit_console->clear();
 
     origImageName = ui->lineEdit_orig_name->text();
     if(origImageName.isEmpty())
@@ -234,7 +234,7 @@ void MainWindow::on_action_start_prog_triggered()
 
         QString tmp = pathProject+origImageName;
         origImage = loadRawImage(&tmp);
-        if(origImage.isNull())
+        /*if(origImage.isNull())
         {
             QMessageBox::critical(this, "Ошибка", "Не удалось загрузить сырые данные!");
             return;
@@ -245,7 +245,7 @@ void MainWindow::on_action_start_prog_triggered()
         scene->addItem(item);
         ui->graphicsView->setScene(scene);
         ui->graphicsView->setRenderHint(QPainter::Antialiasing);
-        ui->graphicsView->setRenderHint(QPainter::SmoothPixmapTransform);
+        ui->graphicsView->setRenderHint(QPainter::SmoothPixmapTransform);*/
 
     }
 

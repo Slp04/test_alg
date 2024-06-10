@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>985</width>
-    <height>479</height>
+    <width>986</width>
+    <height>799</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
      <widget class="QSplitter" name="splitter_2">
       <property name="orientation">
@@ -27,20 +27,24 @@
        <widget class="QWidget" name="horizontalLayoutWidget">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QListView" name="file_list_panel">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="baseSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QListView" name="file_list_panel">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QTextEdit" name="text_editor"/>
@@ -164,7 +168,7 @@
            <item row="1" column="0">
             <widget class="QCheckBox" name="checkBox_data">
              <property name="text">
-              <string>Сырые данные изображения</string>
+              <string>Матрица пикселей</string>
              </property>
             </widget>
            </item>
@@ -235,9 +239,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="graphicsView"/>
-        </item>
-        <item>
          <widget class="QTextEdit" name="textEdit_console"/>
         </item>
        </layout>
@@ -251,7 +252,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>985</width>
+     <width>986</width>
      <height>22</height>
     </rect>
    </property>

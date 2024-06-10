@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic "CMakeFiles/\$PROJECT_NAME.dir/asd.cpp.o" -o "\$PROJECT_NAME" 
