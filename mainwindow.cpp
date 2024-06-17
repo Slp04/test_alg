@@ -8,9 +8,9 @@
 #include <QFileDialog>
 #include <QRegularExpression>
 #include <chrono>
-#include <QGraphicsPixmapItem>
 
 #include "startwidget.h"
+#include "reswidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     fileSystemModel = new QFileSystemModel(this);
     fileSystemModel->setRootPath(QDir::currentPath());
     fileSystemModel->setFilter(QDir::Files | QDir::NoDotAndDotDot);
-    fileSystemModel->setNameFilters(QStringList() << "*.cpp" << "*.h" << "*.txt");
+    fileSystemModel->setNameFilters(QStringList() << "*.cpp" << "*.c" << "*.h" << "*.txt");
     fileSystemModel->setNameFilterDisables(false);
 
     imageSystemModel = new QFileSystemModel(this);
@@ -161,7 +161,7 @@ void MainWindow::create_new_file()
     }
 }
 
-void MainWindow::open_image()
+/*void MainWindow::open_image()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr(pathProject.toStdString().c_str()), "", tr("PNG (*.png);;All Files (*)"));
     if (!fileName.isEmpty())
@@ -178,7 +178,7 @@ void MainWindow::open_image()
             QMessageBox::warning(this, tr("Ошибка"), tr("Не удалось открыть изображение."));
         }
     }
-}
+}*/
 
 void MainWindow::save_file()
 {
@@ -198,8 +198,6 @@ void MainWindow::save_file()
 
 void MainWindow::on_action_start_prog_triggered()
 {
-    //ui->textEdit_console->clear();
-
     origImageName = ui->lineEdit_orig_name->text();
     if(origImageName.isEmpty())
     {
@@ -212,41 +210,6 @@ void MainWindow::on_action_start_prog_triggered()
     {
         QMessageBox::critical(this, "Ошибка", "Не указано название сжатого изображения");
         return;
-    }
-
-    if(ui->checkBox_data->isChecked())
-    {
-        m_width = ui->lineEdit_width->text().toInt();
-        m_height = ui->lineEdit_height->text().toInt();
-
-        if(!m_width or !m_height)
-        {
-            QMessageBox::critical(this, "Ошибка", "Не указаны размеры ихображения!");
-            return;
-        }
-
-
-        ui->comboBox_format->currentText().toInt();
-        if(ui->comboBox_format->currentText().toLatin1().data() == "RGB")
-        {
-            m_format = QImage::Format_RGB888;
-        }
-
-        QString tmp = pathProject+origImageName;
-        origImage = loadRawImage(&tmp);
-        /*if(origImage.isNull())
-        {
-            QMessageBox::critical(this, "Ошибка", "Не удалось загрузить сырые данные!");
-            return;
-        }
-
-        QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap::fromImage(origImage));
-        QGraphicsScene *scene = new QGraphicsScene;
-        scene->addItem(item);
-        ui->graphicsView->setScene(scene);
-        ui->graphicsView->setRenderHint(QPainter::Antialiasing);
-        ui->graphicsView->setRenderHint(QPainter::SmoothPixmapTransform);*/
-
     }
 
     cmakeProcess->setWorkingDirectory(pathProject);
@@ -314,10 +277,23 @@ void MainWindow::handleMakeFinished(int exitCode, QProcess::ExitStatus exitStatu
         return;
     }
 
+    QProcess startProg;
     auto start = std::chrono::high_resolution_clock::now();
-    runCode();
+    startProg.start("./" + nameProject);
+    startProg.waitForFinished();
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> time = finish - start;
+
+    QString tmp1, tmp2;
+    tmp1.append(pathProject);
+    tmp2.append(pathProject);
+    tmp1.append(ui->lineEdit_orig_name->text());
+    tmp2.append(ui->lineEdit_compr_name->text());
+    ResWidget *resWidget = new ResWidget(nullptr, &tmp1, &tmp2, ui->checkBox_2->isChecked(), ui->checkBox_3->isChecked(), ui->checkBox_4->isChecked(), ui->checkBox_5->isChecked());
+    //ResWidget *resWidget = new ResWidget;
+    resWidget->setWindowTitle("Результат работы");
+    resWidget->show();
+
     //ui->textEdit_result->clear();
     //ui->textEdit_result->insertPlainText("Название программы: " + nameProject + '\n');
     //ui->textEdit_result->insertPlainText("Время работы программы: " + QString::number(time.count()) + "сек." + '\n');
@@ -347,30 +323,7 @@ void MainWindow::getProjectName()
     file.close();
 }
 
-void MainWindow::runCode()
-{
-    QProcess startProg;
-    startProg.start("./" + nameProject);
-    startProg.waitForFinished();
-}
-
-void MainWindow::on_checkBox_data_stateChanged(int check)
-{
-    if(check)
-    {
-        ui->lineEdit_width->setEnabled(true);
-        ui->lineEdit_height->setEnabled(true);
-        ui->comboBox_format->setEnabled(true);
-    }
-    else
-    {
-        ui->lineEdit_width->setEnabled(false);
-        ui->lineEdit_height->setEnabled(false);
-        ui->comboBox_format->setEnabled(false);
-    }
-}
-
-QImage MainWindow::loadRawImage(QString *filePath)
+/*QImage MainWindow::loadRawImage(QString *filePath)
 {
     QFile file(*filePath);
     if(!file.open(QIODevice::ReadOnly))
@@ -384,4 +337,4 @@ QImage MainWindow::loadRawImage(QString *filePath)
 
     QImage image(reinterpret_cast<const uchar*>(ba.data()), m_width, m_height, m_format);
     return image;
-}
+}*/

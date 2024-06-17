@@ -89,157 +89,81 @@
           <property name="title">
            <string>Настройка параметров</string>
           </property>
-          <layout class="QFormLayout" name="formLayout">
-           <item row="0" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
             <widget class="QLabel" name="label">
              <property name="text">
               <string>Название исходного изображения</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="lineEdit_orig_name"/>
-           </item>
-           <item row="7" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBox">
+           <item>
+            <widget class="QLineEdit" name="lineEdit_orig_name">
              <property name="text">
-              <string>Время работы</string>
+              <string>29072.png</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="0">
-            <widget class="QCheckBox" name="checkBox_2">
+           <item>
+            <widget class="QLabel" name="label_2">
              <property name="text">
-              <string>PSNR</string>
+              <string>Название сжатого изображения</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
-           <item row="8" column="1">
-            <widget class="QCheckBox" name="checkBox_5">
+           <item>
+            <widget class="QLineEdit" name="lineEdit_compr_name">
              <property name="text">
-              <string>Compress ratio</string>
+              <string>images.jpg</string>
              </property>
             </widget>
            </item>
-           <item row="9" column="0">
-            <widget class="QCheckBox" name="checkBox_3">
-             <property name="text">
-              <string>SSIM</string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="1">
-            <widget class="QCheckBox" name="checkBox_6">
-             <property name="text">
-              <string>Bitrate</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0">
+           <item>
             <widget class="QCheckBox" name="checkBox_4">
              <property name="text">
               <string>MSE</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="1">
-            <widget class="QCheckBox" name="checkBox_7">
+           <item>
+            <widget class="QCheckBox" name="checkBox_2">
              <property name="text">
-              <string>Вывод изображений</string>
+              <string>PSNR</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_2">
+           <item>
+            <widget class="QCheckBox" name="checkBox_5">
              <property name="text">
-              <string>Название сжатого изображения</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <string>Степень сжатия</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
-            <widget class="QLineEdit" name="lineEdit_compr_name"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="checkBox_data">
+           <item>
+            <widget class="QCheckBox" name="checkBox_3">
              <property name="text">
-              <string>Матрица пикселей</string>
+              <string>SSIM</string>
              </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Размер изображения: </string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_width">
-             <property name="text">
-              <string>Ширина</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_height">
-             <property name="text">
-              <string>Высота</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEdit_width">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QLineEdit" name="lineEdit_height">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Формат:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QComboBox" name="comboBox_format">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <item>
-              <property name="text">
-               <string>RGB</string>
-              </property>
-             </item>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="textEdit_console"/>
+         <widget class="QTextEdit" name="textEdit_console">
+          <property name="baseSize">
+           <size>
+            <width>300</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

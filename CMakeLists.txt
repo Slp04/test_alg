@@ -24,6 +24,9 @@ set(PROJECT_SOURCES
         hexeditor.h
         startwidget.cpp
         startwidget.h
+        reswidget.cpp
+        reswidget.h
+        reswidget.ui
         mainwindow.ui
         startwidget.ui
         #${UI_HEADERS}
