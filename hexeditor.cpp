@@ -17,31 +17,3 @@ void HexEditor::set_data(const QByteArray &data, const int size)
     setPlainText(hex_string.trimmed());
 }
 
-void HexEditor::keyPressEvent(QKeyEvent *event)
-{
-    int pos = textCursor().position();
-    switch (event->key())
-    {
-    case Qt::Key_Left:
-        if (pos > 0) setTextCursor(textCursorAt(pos - 3));
-        break;
-    case Qt::Key_Right:
-        if (pos < toPlainText().length() - 2) setTextCursor(textCursorAt(pos + 3));
-        break;
-    case Qt::Key_Up:
-        if (pos >= 48) setTextCursor(textCursorAt(pos - 48));
-        break;
-    case Qt::Key_Down:
-        if (pos <= toPlainText().length() - 48) setTextCursor(textCursorAt(pos + 48));
-        break;
-    default:
-        QPlainTextEdit::keyPressEvent(event);
-    }
-}
-
-QTextCursor HexEditor::textCursorAt(int pos)
-{
-    QTextCursor cursor = textCursor();
-    cursor.setPosition(pos);
-    return cursor;
-}

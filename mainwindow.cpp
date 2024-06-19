@@ -289,14 +289,10 @@ void MainWindow::handleMakeFinished(int exitCode, QProcess::ExitStatus exitStatu
     tmp2.append(pathProject);
     tmp1.append(ui->lineEdit_orig_name->text());
     tmp2.append(ui->lineEdit_compr_name->text());
-    ResWidget *resWidget = new ResWidget(nullptr, &tmp1, &tmp2, ui->checkBox_2->isChecked(), ui->checkBox_3->isChecked(), ui->checkBox_4->isChecked(), ui->checkBox_5->isChecked());
-    //ResWidget *resWidget = new ResWidget;
+    ResWidget *resWidget = new ResWidget(nullptr, tmp1, tmp2, ui->checkBox_2->isChecked(), ui->checkBox_3->isChecked(), ui->checkBox_4->isChecked(), ui->checkBox_5->isChecked());
     resWidget->setWindowTitle("Результат работы");
     resWidget->show();
 
-    //ui->textEdit_result->clear();
-    //ui->textEdit_result->insertPlainText("Название программы: " + nameProject + '\n');
-    //ui->textEdit_result->insertPlainText("Время работы программы: " + QString::number(time.count()) + "сек." + '\n');
 }
 
 void MainWindow::getProjectName()

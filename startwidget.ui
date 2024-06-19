@@ -26,16 +26,6 @@
    <item>
     <widget class="QPushButton" name="pushButton">
      <property name="text">
-      <string>Создать</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QComboBox" name="comboBox"/>
-   </item>
-   <item>
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="text">
       <string>Открыть</string>
      </property>
     </widget>
@@ -45,8 +35,6 @@
  <tabstops>
   <tabstop>lineEdit</tabstop>
   <tabstop>pushButton</tabstop>
-  <tabstop>comboBox</tabstop>
-  <tabstop>pushButton_2</tabstop>
  </tabstops>
  <resources/>
  <connections/>
